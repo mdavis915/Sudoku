@@ -7,7 +7,7 @@ HEIGHT = 600
 LINE_WIDTH = 2
 SQUARE_SIZE = 60
 BG_COLOR = (0, 0, 139)
-LINE_COLOR = (255, 165, 0)
+LINE_COLOR = (237, 150, 36)
 RED = (255, 0, 0)
 
 # Define the Cell class
@@ -35,7 +35,7 @@ class Cell:
 
         # Draw the selected cell in red
         if self.selected:
-            pygame.draw.rect(self.screen, RED, (self.col * cell_size, self.row * cell_size, cell_size, cell_size), LINE_WIDTH)
+            pygame.draw.rect(self.screen, RED, (self.col * cell_size, self.row * cell_size, cell_size, cell_size), LINE_WIDTH + 4)
 
         # Draw the cell value
         if self.value:
@@ -44,40 +44,40 @@ class Cell:
                 center=(self.col * cell_size + cell_size // 2, self.row * cell_size + cell_size // 2 + 3))
             self.screen.blit(chip_surf, chip_rect)
 
-# Initialize Pygame
-pygame.init()
-
-# Create the screen
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("sample sudoku cell")
-
-# Create a sample cell
-sample_cell = Cell(1, 0, 0, screen)
-
-# Main loop
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-        # Check for mouse click events
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:  # Left mouse button
-                # Get the mouse position
-                mouse_x, mouse_y = event.pos
-
-                # Check if the mouse is within the boundaries of the sample cell
-                if (sample_cell.col * SQUARE_SIZE <= mouse_x < (sample_cell.col + 1) * SQUARE_SIZE and
-                        sample_cell.row * SQUARE_SIZE <= mouse_y < (sample_cell.row + 1) * SQUARE_SIZE):
-                    sample_cell.selected = not sample_cell.selected
-
-    # Clear the screen
-    screen.fill(BG_COLOR)
-
-    # Draw the sample cell
-    sample_cell.draw()
-
-    # Update the display
-    pygame.display.flip()
-
+# # Initialize Pygame
+# pygame.init()
+#
+# # Create the screen
+# screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# pygame.display.set_caption("sample sudoku cell")
+#
+# # Create a sample cell
+# sample_cell = Cell(1, 0, 0, screen)
+#
+# # Main loop
+# while True:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#
+#         # Check for mouse click events
+#         if event.type == pygame.MOUSEBUTTONDOWN:
+#             if event.button == 1:  # Left mouse button
+#                 # Get the mouse position
+#                 mouse_x, mouse_y = event.pos
+#
+#                 # Check if the mouse is within the boundaries of the sample cell
+#                 if (sample_cell.col * SQUARE_SIZE <= mouse_x < (sample_cell.col + 1) * SQUARE_SIZE and
+#                         sample_cell.row * SQUARE_SIZE <= mouse_y < (sample_cell.row + 1) * SQUARE_SIZE):
+#                     sample_cell.selected = not sample_cell.selected
+#
+#     # Clear the screen
+#     screen.fill(BG_COLOR)
+#
+#     # Draw the sample cell
+#     sample_cell.draw()
+#
+#     # Update the display
+#     pygame.display.flip()
+#

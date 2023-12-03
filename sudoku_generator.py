@@ -1,5 +1,5 @@
 import math,random
-
+import copy
 
 class SudokuGenerator:
     '''
@@ -71,7 +71,7 @@ class SudokuGenerator:
     '''
     def valid_in_col(self, col, num):
         for i in range(self.row_length):
-            if self.board[col][i] == num:
+            if self.board[i][col] == num:
                 return False
         return True
 
@@ -127,7 +127,7 @@ class SudokuGenerator:
                 self.board[row_start+i][col_start+j] = num
                 
     def randomNumber(self, value):
-        return random.randint(0, value + 1)
+        return random.randint(1, value)
                     
     
     '''
@@ -232,15 +232,22 @@ Return: list[list] (a 2D Python list to represent the board)
 def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
-    board = sudoku.get_board()
+    solution = copy.deepcopy(sudoku.get_board())
     sudoku.remove_cells()
     board = sudoku.get_board()
-    return board
+    return board, solution
 
 
 if __name__ == "__main__":
     N = 9
     K = 40
-    sudoku = SudokuGenerator(N, K)
-    sudoku.fill_values()
-    sudoku.print_board()
+    # sudoku = SudokuGenerator(N, K)
+    # sudoku.fill_values()
+    # sudoku.print_board()
+
+    s = SudokuGenerator(N, K)
+
+    s.fill_values()
+    s.print_board()
+
+
