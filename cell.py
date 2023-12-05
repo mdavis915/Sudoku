@@ -4,11 +4,13 @@ import sys
 # Define constants
 WIDTH = 540
 HEIGHT = 600
-LINE_WIDTH = 2
+LINE_WIDTH = 1
 SQUARE_SIZE = 60
 BG_COLOR = (0, 0, 139)
 LINE_COLOR = (237, 150, 36)
 RED = (255, 0, 0)
+MIXED = (119, 75, 88)
+
 
 # Define the Cell class
 class Cell:
@@ -17,32 +19,80 @@ class Cell:
         self.row = row
         self.col = col
         self.screen = screen
-        self.set_sketched_value = value
+        self.sketched_value = 0
         self.selected = False
 
     def set_cell_values(self, value):
         self.value = value
 
     def set_sketched_value(self, value):
-        self.set_sketched_value = value
+        self.sketched_value = value
 
     def draw(self):
         cell_size = SQUARE_SIZE
         chip_font = pygame.font.Font(None, 60)
+        sketch_font = pygame.font.Font(None, 45)
+
+        # Draw cell background
+        pygame.draw.rect(
+            self.screen,
+            BG_COLOR,
+            (self.col * cell_size, self.row * cell_size, cell_size, cell_size),
+        )
 
         # Draw cell outline
-        pygame.draw.rect(self.screen, LINE_COLOR, (self.col * cell_size, self.row * cell_size, cell_size, cell_size), LINE_WIDTH)
+        pygame.draw.rect(
+            self.screen,
+            LINE_COLOR,
+            (self.col * cell_size, self.row * cell_size, cell_size, cell_size),
+            LINE_WIDTH,
+        )
+
+        # Draw thick outlines if cell is in the bottom corner of a larger square
+        if self.row % 3 == 2 and self.col % 3 == 2:
+            pygame.draw.rect(
+                self.screen,
+                LINE_COLOR,
+                (
+                    (self.col - 2) * cell_size,
+                    (self.row - 2) * cell_size,
+                    cell_size * 3,
+                    cell_size * 3,
+                ),
+                LINE_WIDTH * 5,
+            )
 
         # Draw the selected cell in red
         if self.selected:
-            pygame.draw.rect(self.screen, RED, (self.col * cell_size, self.row * cell_size, cell_size, cell_size), LINE_WIDTH + 4)
+            pygame.draw.rect(
+                self.screen,
+                RED,
+                (self.col * cell_size, self.row * cell_size, cell_size, cell_size),
+                LINE_WIDTH + 4,
+            )
 
         # Draw the cell value
         if self.value:
             chip_surf = chip_font.render(str(self.value), 1, LINE_COLOR)
             chip_rect = chip_surf.get_rect(
-                center=(self.col * cell_size + cell_size // 2, self.row * cell_size + cell_size // 2 + 3))
+                center=(
+                    self.col * cell_size + cell_size // 2,
+                    self.row * cell_size + cell_size // 2 + 3,
+                )
+            )
             self.screen.blit(chip_surf, chip_rect)
+
+        # Draw the cell sketched value
+        if self.sketched_value:
+            sketch_surf = sketch_font.render(str(self.sketched_value), 1, MIXED)
+            sketch_rect = sketch_surf.get_rect(
+                center=(
+                    self.col * cell_size + cell_size // 3,
+                    self.row * cell_size + cell_size // 3,
+                )
+            )
+            self.screen.blit(sketch_surf, sketch_rect)
+
 
 # # Initialize Pygame
 # pygame.init()

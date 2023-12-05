@@ -15,7 +15,6 @@ RED = (255, 0, 0)
 
 
 class Board:
-
     def __init__(self, width, height, screens, difficulty):
         self.width = width
         self.height = height
@@ -34,16 +33,32 @@ class Board:
         # original board when the game is first started.
         self.board, self.solution = generate_sudoku(9, removed_cell)
         self.original_board = copy.deepcopy(self.board)
-        self.cells = [Cell(self.board[i][j], i, j, screen) for i in range(0, 9) for j in range(0, 9)]
+        self.cells = [
+            Cell(self.board[i][j], i, j, self.screen)
+            for i in range(0, 9)
+            for j in range(0, 9)
+        ]
 
     def draw(self):
         # Draws horizontal lines of Sudoku Grid
         for i in range(1, 3):
-            pygame.draw.line(self.screen, LINE_COLOR, (0, i * SQUARE_SIZE), (WIDTH, i * SQUARE_SIZE), LINE_WIDTH)
+            pygame.draw.line(
+                self.screen,
+                LINE_COLOR,
+                (0, i * SQUARE_SIZE),
+                (WIDTH, i * SQUARE_SIZE),
+                LINE_WIDTH,
+            )
 
         # Draws vertical lines of Sudoku Grid
         for i in range(1, 3):
-            pygame.draw.line(self.screen, LINE_COLOR, (i * SQUARE_SIZE, 0), (i * SQUARE_SIZE, WIDTH), LINE_WIDTH)
+            pygame.draw.line(
+                self.screen,
+                LINE_COLOR,
+                (i * SQUARE_SIZE, 0),
+                (i * SQUARE_SIZE, WIDTH),
+                LINE_WIDTH,
+            )
 
         # Draws each cell of the sudoku board from the cell list containing Cell objects.
         for i in self.cells:
@@ -87,24 +102,31 @@ class Board:
     # top-left corner of the cell using the draw() function.
     def sketch(self, value):
         for i in self.cells:
-            if i.selected and self.original_board[i.row][i.col] == 0:
+            if i.selected and self.original_board[i.row][i.col] == 0 and not i.value:
                 i.set_sketched_value(value)
 
     # Sets the value of the current selected cell equal to user entered value. Called when the user presses the Enter
     # key. This will only be done if the selected cell was originally blank or equal to 0.
-    def place_number(self, value):
+    def place_number(self, value=None):
         for i in self.cells:
             if i.selected and self.original_board[i.row][i.col] == 0:
-                i.set_cell_values(value)
+                i.set_cell_values(value or i.sketched_value)
+                i.sketched_value = 0
                 i.draw()
         self.update_board()
 
     # Resets all cells in the board to their original values.
     def reset_to_original(self):
-        original_cells = [Cell(self.original_board[i][j], i, j, screen) for i in range(0, 9) for j in range(0, 9)]
+        original_cells = [
+            Cell(self.original_board[i][j], i, j, self.screen)
+            for i in range(0, 9)
+            for j in range(0, 9)
+        ]
 
         for i in range(0, len(original_cells)):
             self.cells[i].set_cell_values(original_cells[i].value)
+            self.cells[i].set_sketched_value(original_cells[i].sketched_value)
+            self.cells[i].selected = False
             self.cells[i].draw()
 
         self.update_board()
@@ -147,6 +169,7 @@ class Board:
                     return False
 
         return True
+
 
 # Used to test the board class:
 
