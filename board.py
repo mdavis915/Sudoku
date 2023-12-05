@@ -3,6 +3,7 @@ import pygame
 import sys
 from cell import Cell
 from sudoku_generator import generate_sudoku
+from sudoku_generator import SudokuGenerator
 
 # Define constants
 WIDTH = 540
@@ -31,7 +32,11 @@ class Board:
 
         # Defines 3 different lists containing the 2D board, the solution for the sudoku, and the state of the
         # original board when the game is first started.
-        self.board, self.solution = generate_sudoku(9, removed_cell)
+        sudoku = SudokuGenerator(9, removed_cell)
+        sudoku.fill_values()
+        self.solution = copy.deepcopy(sudoku.get_board())
+        sudoku.remove_cells()
+        self.board = sudoku.get_board()
         self.original_board = copy.deepcopy(self.board)
         self.cells = [
             Cell(self.board[i][j], i, j, self.screen)

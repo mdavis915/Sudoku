@@ -232,10 +232,10 @@ Return: list[list] (a 2D Python list to represent the board)
 def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
-    solution = copy.deepcopy(sudoku.get_board())
+    board = sudoku.get_board()
     sudoku.remove_cells()
     board = sudoku.get_board()
-    return board, solution
+    return board
 
 
 if __name__ == "__main__":
@@ -245,9 +245,9 @@ if __name__ == "__main__":
     # sudoku.fill_values()
     # sudoku.print_board()
 
-    s = SudokuGenerator(N, K)
-
-    s.fill_values()
-    s.print_board()
+    # s = SudokuGenerator(N, K)
+    #
+    # s.fill_values()
+    # s.print_board()
 
 
