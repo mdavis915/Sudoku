@@ -175,7 +175,6 @@ class Board:
 
         return True
 
-
 # Used to test the board class:
 
 # # Initialize Pygame

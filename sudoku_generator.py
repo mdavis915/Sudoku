@@ -238,16 +238,4 @@ def generate_sudoku(size, removed):
     return board
 
 
-if __name__ == "__main__":
-    N = 9
-    K = 40
-    # sudoku = SudokuGenerator(N, K)
-    # sudoku.fill_values()
-    # sudoku.print_board()
-
-    # s = SudokuGenerator(N, K)
-    #
-    # s.fill_values()
-    # s.print_board()
-
 

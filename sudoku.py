@@ -73,6 +73,8 @@ def draw_game_main(screen, difficulty):
 
     pygame.display.flip()
 
+    selected_row, selected_col = 0, 0
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,17 +89,34 @@ def draw_game_main(screen, difficulty):
                     elif exit_rect.collidepoint(event.pos):
                         sys.exit()
                     else:
-                        if board.click(*event.pos):
-                            board.select(*board.click(*event.pos))
+                        selected_cell = board.click(*event.pos)
+                        if selected_cell:
+                            selected_row, selected_col = selected_cell
+                            board.select(selected_row, selected_col)
                             pygame.display.flip()
             if event.type == pygame.KEYDOWN:
+                # Handle arrow keys
+                if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN):
+                    if event.key == pygame.K_LEFT:
+                        selected_col = (selected_col - 1) % 9
+                    elif event.key == pygame.K_RIGHT:
+                        selected_col = (selected_col + 1) % 9
+                    elif event.key == pygame.K_UP:
+                        selected_row = (selected_row - 1) % 9
+                    elif event.key == pygame.K_DOWN:
+                        selected_row = (selected_row + 1) % 9
+
+                    # Update the selection
+                    board.select(selected_row, selected_col)
+                    pygame.display.flip()
+
                 # Set sketched number
-                if event.unicode.isnumeric():
+                elif event.unicode.isnumeric():
                     board.sketch(int(event.unicode))
                     board.draw()
                     pygame.display.flip()
                 # Enter sketched number into cell
-                elif event.unicode == "\r":
+                elif event.key == pygame.K_RETURN:
                     board.place_number()
                     pygame.display.flip()
 
@@ -108,19 +127,7 @@ def draw_game_main(screen, difficulty):
                 elif event.key == pygame.K_DELETE or event.key == pygame.K_BACKSPACE:
                     board.clear()
                     pygame.display.flip()
-                # Move to empty cell
-                elif event.scancode == 79:
-                    board.select(*board.find_empty())
-                    pygame.display.flip()
-                elif event.scancode == 80:
-                    board.select(*board.find_empty())
-                    pygame.display.flip()
-                elif event.scancode == 81:
-                    board.select(*board.find_empty())
-                    pygame.display.flip()
-                elif event.scancode == 82:
-                    board.select(*board.find_empty())
-                    pygame.display.flip()
+
 
 
 def draw_game_won(screen):
