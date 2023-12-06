@@ -167,7 +167,6 @@ class Board:
     def check_board(self):
         if not self.is_full():
             return False
-
         for i in range(0, 9):
             for j in range(0, 9):
                 if self.board[i][j] != self.solution[i][j]:
