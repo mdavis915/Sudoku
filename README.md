@@ -1,8 +1,6 @@
 # Sudoku-Project
 
-## Fork Repository Instructions
-### Steps:
-1. When you go to the github repository we provided, on the top right hand corner of the screen, there is a button that says "Fork". That will fork the repo to your own github 
-2. Use the link https://github.com/new/import to clone your forked repo to make it private. You will work on the project by adding your own files to this private repository.
+In this project, our group created a a simplified version of the Sudoku game. We implemented random board generation, state checking, and visuals using PyGame. The project is designed to 
+be a playful and practical opportunity to practice the programming skills we have learned this semester, as well as working with external libraries
 
 
