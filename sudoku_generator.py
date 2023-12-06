@@ -1,5 +1,6 @@
-import math,random
-import copy
+import math
+import random
+
 
 class SudokuGenerator:
     
@@ -9,32 +10,31 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.box_length = int(math.sqrt(row_length))
         self.board = [[0 for i in range(row_length)] for i in range(row_length)]
-
     
-	# returns a 2D python list of numbers which represents the board
+    # returns a 2D python list of numbers which represents the board
     def get_board(self):
         return self.board
 
-	# displays the board to the console
+    # displays the board to the console
     def print_board(self):
         for row in self.board:
             print(row)
 
-	# determines if num is contained in the specified row (horizontal) of the board
+    # determines if num is contained in the specified row (horizontal) of the board
     def valid_in_row(self, row, num):
         for i in range(self.row_length):
             if self.board[row][i] == num:
                 return False
         return True
 
-	# determines if num is contained in the specified column (vertical) of the board
+    # determines if num is contained in the specified column (vertical) of the board
     def valid_in_col(self, col, num):
         for i in range(self.row_length):
             if self.board[i][col] == num:
                 return False
         return True
 
-	# determines if num is contained in the 3x3 box specified on the board
+    # determines if num is contained in the 3x3 box specified on the board
     def valid_in_box(self, row_start, col_start, num):
         for row in range(3):
             for col in range(3):
@@ -59,13 +59,11 @@ class SudokuGenerator:
     # returns a random number
     def randomNumber(self, value):
         return random.randint(1, value)
-                    
     
     # fills the three boxes along the main diagonal of the board
     def fill_diagonal(self):
         for i in range(0, self.row_length, 3):
             self.fill_box(i, i)
-
 
     # fills the remaining cells of the board
     def fill_remaining(self, row, col):
